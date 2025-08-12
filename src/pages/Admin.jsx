@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '../services/supabase';
 import { db } from '../services/supabase';
-import { calculateDiscountPercentage } from '../utils/helpers';
+import { calculateDiscountPercentage, formatCOP } from '../utils/helpers';
 import { resizeImage, supportsWebP } from '../utils/imageConverter';
 import AdminLogin from '../components/AdminLogin';
 
@@ -1884,7 +1884,7 @@ const Admin = () => {
                           {product.categories?.name || 'N/A'}
                         </td>
                         <td className="px-6 py-4 font-semibold text-green-600">
-                          ${product.price}
+                          {formatCOP(product.price)}
                         </td>
                         <td className="px-6 py-4">
                           <div className="flex items-center space-x-2">

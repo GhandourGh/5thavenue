@@ -13,6 +13,7 @@ import AddToCartModal from '../ui/AddToCartModal';
 import EmailConfirmationMessage from '../ui/EmailConfirmationMessage';
 import Toast from '../ui/Toast';
 import { supabase } from '../../services/supabase';
+import { formatCOP } from '../../utils/helpers';
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -796,14 +797,7 @@ const Layout = ({ children }) => {
                             </div>
                             <div className="text-right">
                               <span className="font-semibold text-[#a10009]">
-                                {new Intl.NumberFormat('es-CO', {
-                                  style: 'currency',
-                                  currency: 'COP',
-                                  minimumFractionDigits: 3,
-                                  maximumFractionDigits: 3,
-                                })
-                                  .format(product.price)
-                                  .replace(',', '.')}
+                                {formatCOP(product.price)}
                               </span>
                             </div>
                           </div>
