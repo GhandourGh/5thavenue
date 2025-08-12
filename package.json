@@ -2,7 +2,7 @@
   "name": "5thavenue",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ghandourgh.github.io/5thavenue",
+  "homepage": "",
   "dependencies": {
     "@supabase/supabase-js": "^2.53.0",
     "lucide-react": "^0.536.0",

@@ -28,6 +28,21 @@
   for = "/static/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "application/javascript"
+
+# Cache CSS files
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "text/css"
+
+# Cache JS files
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "application/javascript"
 
 # Cache images
 [[headers]]
