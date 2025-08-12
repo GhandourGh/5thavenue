@@ -1024,7 +1024,11 @@ const Layout = ({ children }) => {
                     className="ml-2 block text-sm text-gray-700"
                   >
                     Acepto los{' '}
-                    <a href="#" className="text-[#a10009] hover:underline">
+                    <a
+                      href="https://www.google.com"
+                      target="_blank"
+                      className="text-[#a10009] hover:underline"
+                    >
                       términos y condiciones
                     </a>
                   </label>
