@@ -3,8 +3,15 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
-// Create Supabase client - will throw error if credentials are missing
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Check if environment variables are set
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('❌ Supabase environment variables are missing!');
+  console.error('Please set REACT_APP_SUPABASE_URL and REACT_APP_SUPABASE_ANON_KEY in your Netlify environment variables.');
+  console.error('Go to: Netlify Dashboard → Site Settings → Environment Variables');
+}
+
+// Create Supabase client
+export const supabase = createClient(supabaseUrl || '', supabaseAnonKey || '');
 
 // Database tables configuration
 export const TABLES = {
