@@ -1,11 +1,12 @@
 // Format Colombian Peso
 export const formatCOP = amount => {
-  return new Intl.NumberFormat('es-CO', {
-    style: 'currency',
-    currency: 'COP',
+  // Colombian Peso format: $ 500.000 (with space after $, dots for thousands, no decimals)
+  const number = new Intl.NumberFormat('es-CO', {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount);
+  
+  return `$ ${number}`;
 };
 
 // Convert to COP amount (remove currency symbol)
