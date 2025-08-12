@@ -3,7 +3,7 @@ import { setPageSEO, setJsonLd } from '../utils/seo';
 import { useParams, Link } from 'react-router-dom';
 import { Star, Minus, Plus, ChevronLeft } from 'lucide-react';
 import { supabase } from '../services/supabase';
-import { formatCOP } from '../utils/helpers';
+
 import PriceWithDiscount from '../components/ui/PriceWithDiscount';
 import whiteCartIcon from '../assets/icons/white_cart.svg';
 import { useCart } from '../context/CartContext';

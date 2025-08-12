@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react';
 import { supabase, db } from '../../services/supabase';
-import { setJsonLd } from '../../utils/seo';
 
 const ProductNavigation = ({ currentProductId, currentProductName }) => {
   const navigate = useNavigate();

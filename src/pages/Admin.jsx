@@ -14,11 +14,7 @@ import {
 import { supabase } from '../services/supabase';
 import { db } from '../services/supabase';
 import { calculateDiscountPercentage } from '../utils/helpers';
-import {
-  convertToWebP,
-  resizeImage,
-  supportsWebP,
-} from '../utils/imageConverter';
+import { resizeImage, supportsWebP } from '../utils/imageConverter';
 import AdminLogin from '../components/AdminLogin';
 
 // Common fragrance notes to speed up tagging; admin can add custom too

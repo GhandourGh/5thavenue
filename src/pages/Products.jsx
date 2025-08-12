@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { supabase, db } from '../services/supabase';
-import { formatCOP } from '../utils/helpers';
+
 import PriceWithDiscount from '../components/ui/PriceWithDiscount';
 
 import { useCart } from '../context/CartContext';

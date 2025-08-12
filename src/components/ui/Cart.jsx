@@ -17,7 +17,6 @@ const Cart = ({ isOpen, onClose }) => {
     cartItemCount,
     isPromosProduct,
     getItemPrice,
-    addToCart,
     addToCartSilent,
     isInCart,
   } = useCart();

@@ -25,18 +25,21 @@ A modern, responsive e-commerce platform for 5th Avenue Spanish Online, built wi
 ## 📦 Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/ghandourgh/5thavenue.git
    cd 5thavenue
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment variables**
    Create a `.env` file in the root directory:
+
    ```env
    REACT_APP_SUPABASE_URL=your_supabase_url
    REACT_APP_SUPABASE_ANON_KEY=your_supabase_anon_key
@@ -68,6 +71,7 @@ The project is configured for GitHub Pages deployment:
 2. **Live Site**: https://ghandourgh.github.io/5thavenue
 
 **Setup Steps:**
+
 1. Go to repository Settings → Pages
 2. Source: Deploy from a branch
 3. Branch: `gh-pages` (will be created by GitHub Actions)
@@ -114,11 +118,11 @@ The project includes SPA fallback configurations for all major hosting platforms
 
 ### Environment Variables
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `REACT_APP_SUPABASE_URL` | Supabase project URL | Yes |
-| `REACT_APP_SUPABASE_ANON_KEY` | Supabase anonymous key | Yes |
-| `REACT_APP_WOMPI_PUBLIC_KEY` | Wompi public key | Yes |
+| Variable                      | Description            | Required |
+| ----------------------------- | ---------------------- | -------- |
+| `REACT_APP_SUPABASE_URL`      | Supabase project URL   | Yes      |
+| `REACT_APP_SUPABASE_ANON_KEY` | Supabase anonymous key | Yes      |
+| `REACT_APP_WOMPI_PUBLIC_KEY`  | Wompi public key       | Yes      |
 
 ## 🎨 Customization
 
@@ -141,6 +145,7 @@ Payment settings are configured in `src/utils/config.js`:
 ## 📱 Features
 
 ### Customer Features
+
 - Product browsing and search
 - Shopping cart with persistence
 - Secure checkout with multiple payment options
@@ -148,6 +153,7 @@ Payment settings are configured in `src/utils/config.js`:
 - Responsive design for all devices
 
 ### Admin Features
+
 - Product management (CRUD operations)
 - Order management and fulfillment
 - Inventory tracking
@@ -185,6 +191,7 @@ This project is proprietary software for 5th Avenue Spanish Online.
 ## 📞 Support
 
 For support and questions:
+
 - **Email**: support@5thavenue.com.co
 - **WhatsApp**: +57-XXX-XXX-XXXX
 - **Website**: https://5thavenue.com.co
@@ -192,6 +199,7 @@ For support and questions:
 ## 🔄 Changelog
 
 ### v1.0.0 (Current)
+
 - Initial release
 - Complete e-commerce functionality
 - Payment integration

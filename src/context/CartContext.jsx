@@ -37,6 +37,7 @@ export const CartProvider = ({ children }) => {
   const [lastAdded, setLastAdded] = useState(null);
   const [isCartLoading, setIsCartLoading] = useState(false);
   const [cartError, setCartError] = useState(null);
+
   const { user } = useAuth();
   const previousUserIdRef = useRef(null);
   const memoryCartRef = useRef([]);
@@ -155,7 +156,6 @@ export const CartProvider = ({ children }) => {
 
   // Add item to cart
   const addToCart = useCallback(async (product, quantity = 1) => {
-    let nextCartSnapshot = [];
     setCart(prevCart => {
       const existingItem = prevCart.find(item => item.id === product.id);
       let next;
@@ -180,7 +180,6 @@ export const CartProvider = ({ children }) => {
           },
         ];
       }
-      nextCartSnapshot = next;
       persistCartLocal(next);
       setLastAdded({
         id: product.id,

@@ -1027,6 +1027,7 @@ const Layout = ({ children }) => {
                     <a
                       href="https://www.google.com"
                       target="_blank"
+                      rel="noreferrer"
                       className="text-[#a10009] hover:underline"
                     >
                       términos y condiciones
