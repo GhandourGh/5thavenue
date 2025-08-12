@@ -14,7 +14,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "prettier --write \"src/**/*.{js,jsx}\" \"public/**/*.{html,css}\" \"*.{js,jsx,json,md}\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx}\" \"public/**/*.{html,css}\" \"*.{js,jsx,json,md}\"",
+    "lint": "eslint src --ext .js,.jsx --fix",
+    "prebuild": "npm run format"
   },
   "eslintConfig": {
     "extends": [
