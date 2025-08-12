@@ -4,6 +4,8 @@
 
 [build.environment]
   NODE_VERSION = "18"
+  CI = "false"
+  GENERATE_SOURCEMAP = "false"
 
 # Redirect all routes to index.html for SPA
 [[redirects]]
