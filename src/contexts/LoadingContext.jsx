@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 const LoadingContext = createContext();
 
@@ -11,45 +11,18 @@ export const useLoading = () => {
 };
 
 export const LoadingProvider = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadingMessage, setLoadingMessage] = useState('Cargando...');
+  const [loading, setLoading] = useState(false);
 
-  const startLoading = (message = 'Cargando...') => {
-    setIsLoading(true);
-    setLoadingMessage(message);
+  const showLoading = () => setLoading(true);
+  const hideLoading = () => setLoading(false);
+
+  const value = {
+    loading,
+    showLoading,
+    hideLoading,
   };
-
-  const stopLoading = () => {
-    setIsLoading(false);
-    setLoadingMessage('');
-  };
-
-  const setMessage = message => {
-    setLoadingMessage(message);
-  };
-
-  // Auto-hide loading after initial load
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (isLoading) {
-        stopLoading();
-      }
-    }, 3000); // Fallback to prevent infinite loading
-
-    return () => clearTimeout(timer);
-  }, [isLoading]);
 
   return (
-    <LoadingContext.Provider
-      value={{
-        isLoading,
-        loadingMessage,
-        startLoading,
-        stopLoading,
-        setMessage,
-      }}
-    >
-      {children}
-    </LoadingContext.Provider>
+    <LoadingContext.Provider value={value}>{children}</LoadingContext.Provider>
   );
 };

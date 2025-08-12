@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Eye } from 'lucide-react';
 import { supabase } from '../services/supabase';
 import { formatCOP } from '../utils/helpers';
-import { useCart } from '../contexts/CartContext';
+import { useCart } from '../context/CartContext';
 
 const Promos = () => {
   const navigate = useNavigate();

@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
+// Create Supabase client - will throw error if credentials are missing
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Database tables configuration
@@ -511,18 +512,16 @@ export const db = {
       .eq('phone', normalizedPhone);
     if (!updErr) return { data: null, error: null };
     // 2) Insert if no row was updated
-    const { data, error } = await supabase
-      .from('user_profiles')
-      .insert(
-        {
-          full_name,
-          phone: normalizedPhone,
-          email,
-          address,
-          updated_at: timestamp,
-        },
-        { returning: 'minimal', ignoreDuplicates: true }
-      );
+    const { data, error } = await supabase.from('user_profiles').insert(
+      {
+        full_name,
+        phone: normalizedPhone,
+        email,
+        address,
+        updated_at: timestamp,
+      },
+      { returning: 'minimal', ignoreDuplicates: true }
+    );
     return { data, error };
   },
 };

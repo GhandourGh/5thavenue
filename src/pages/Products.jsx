@@ -8,23 +8,20 @@ import React, {
 import { setPageSEO } from '../utils/seo';
 import {
   Filter,
-  Star,
   Search,
   X,
   ChevronDown,
   ChevronUp,
-  Zap,
   Eye,
   ChevronsDown,
 } from 'lucide-react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { supabase, db } from '../services/supabase';
-import { formatCOP, toCOPAmount } from '../utils/helpers';
+import { formatCOP } from '../utils/helpers';
 import PriceWithDiscount from '../components/ui/PriceWithDiscount';
-import whiteCartIcon from '../assets/icons/white_cart.svg';
 
-import { useCart } from '../contexts/CartContext';
-import { useLoading } from '../contexts/LoadingContext';
+import { useCart } from '../context/CartContext';
+import { useLoading } from '../context/LoadingContext';
 
 const Products = () => {
   const [searchParams] = useSearchParams();
@@ -249,9 +246,6 @@ const Products = () => {
     });
   }, [filteredProducts, sortBy]);
 
-  // Use shared COP formatter
-  const formatPrice = useCallback(price => formatCOP(price), []);
-
   const FilterSection = useCallback(
     ({ title, children, isFirst = false }) => (
       <div
@@ -316,21 +310,6 @@ const Products = () => {
     },
     [searchTerm]
   );
-
-  const handleCategoryChange = useCallback((name, isChecked) => {
-    const y = window.scrollY;
-    setFilterAnimating(true);
-    setSelectedCategories(prev => {
-      if (name === 'all') return [];
-      const exists = prev.includes(name);
-      if (isChecked && !exists) return [...prev, name];
-      if (!isChecked && exists) return prev.filter(c => c !== name);
-      return prev;
-    });
-    requestAnimationFrame(() => {
-      window.scrollTo({ top: y, behavior: 'auto' });
-    });
-  }, []);
 
   // End animation shortly after products recalc
   useEffect(() => {

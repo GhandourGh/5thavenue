@@ -26,18 +26,21 @@ A modern, responsive e-commerce platform for 5th Avenue Spanish Online, built wi
 ## 📦 Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/ghandourgh/5thavenue.git
    cd 5thavenue
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Environment Setup**
    Create a `.env` file in the root directory:
+
    ```env
    REACT_APP_SUPABASE_URL=your_supabase_url
    REACT_APP_SUPABASE_ANON_KEY=your_supabase_anon_key
@@ -87,6 +90,7 @@ The project is configured for automatic deployment on Netlify:
 ### Manual Deployment
 
 1. Build the project:
+
    ```bash
    npm run build
    ```

@@ -1,88 +1,147 @@
-// Lightweight SEO helpers for CRA
+// SEO utility functions
+export const setPageSEO = (title, description, keywords = '', image = '') => {
+  // Update document title
+  document.title = title || '5th Avenue Spanish Online';
 
-const MANAGED_ATTR = 'data-managed-seo';
-
-function ensureTag(selector, createFn) {
-  let el = document.head.querySelector(selector);
-  if (!el) {
-    el = createFn();
-    document.head.appendChild(el);
+  // Update meta description
+  let metaDescription = document.querySelector('meta[name="description"]');
+  if (!metaDescription) {
+    metaDescription = document.createElement('meta');
+    metaDescription.name = 'description';
+    document.head.appendChild(metaDescription);
   }
-  return el;
-}
+  metaDescription.content =
+    description ||
+    "Premium perfumes and fragrances from the world's finest brands.";
 
-export function setPageSEO({ title, description, canonicalPath, robots }) {
-  if (typeof document === 'undefined') return;
-  if (title) document.title = title;
-
-  // Description
-  if (description) {
-    const metaDesc = ensureTag(
-      `meta[name="description"][${MANAGED_ATTR}="1"]`,
-      () => {
-        const m = document.createElement('meta');
-        m.setAttribute('name', 'description');
-        m.setAttribute(MANAGED_ATTR, '1');
-        return m;
-      }
-    );
-    metaDesc.setAttribute('content', description);
+  // Update meta keywords
+  let metaKeywords = document.querySelector('meta[name="keywords"]');
+  if (!metaKeywords) {
+    metaKeywords = document.createElement('meta');
+    metaKeywords.name = 'keywords';
+    document.head.appendChild(metaKeywords);
   }
+  metaKeywords.content = keywords || 'perfumes, fragrances, luxury, colombia';
 
-  // Canonical: default to origin + pathname (strip query)
-  const canonicalUrl = (() => {
-    try {
-      const origin = window.location.origin;
-      if (canonicalPath) return origin + canonicalPath;
-      return origin + window.location.pathname;
-    } catch {
-      return canonicalPath || '';
+  // Update Open Graph tags
+  updateOpenGraph(title, description, image);
+
+  // Update Twitter Card tags
+  updateTwitterCard(title, description, image);
+};
+
+const updateOpenGraph = (title, description, image) => {
+  const ogTags = {
+    'og:title': title,
+    'og:description': description,
+    'og:image': image,
+    'og:type': 'website',
+    'og:site_name': '5th Avenue Spanish Online',
+  };
+
+  Object.entries(ogTags).forEach(([property, content]) => {
+    if (!content) return;
+
+    let meta = document.querySelector(`meta[property="${property}"]`);
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute('property', property);
+      document.head.appendChild(meta);
     }
-  })();
-  if (canonicalUrl) {
-    // Remove existing managed canonical
-    const existing = document.head.querySelector(
-      `link[rel="canonical"][${MANAGED_ATTR}="1"]`
-    );
-    if (existing) existing.remove();
-    const link = document.createElement('link');
-    link.setAttribute('rel', 'canonical');
-    link.setAttribute('href', canonicalUrl);
-    link.setAttribute(MANAGED_ATTR, '1');
-    document.head.appendChild(link);
-  }
+    meta.content = content;
+  });
+};
 
-  // Robots
-  if (robots) {
-    const metaRobots = ensureTag(
-      `meta[name="robots"][${MANAGED_ATTR}="1"]`,
-      () => {
-        const m = document.createElement('meta');
-        m.setAttribute('name', 'robots');
-        m.setAttribute(MANAGED_ATTR, '1');
-        return m;
-      }
-    );
-    metaRobots.setAttribute('content', robots);
-  } else {
-    // Remove managed robots if not provided
-    const metaRobots = document.head.querySelector(
-      `meta[name="robots"][${MANAGED_ATTR}="1"]`
-    );
-    if (metaRobots) metaRobots.remove();
-  }
-}
+const updateTwitterCard = (title, description, image) => {
+  const twitterTags = {
+    'twitter:card': 'summary_large_image',
+    'twitter:title': title,
+    'twitter:description': description,
+    'twitter:image': image,
+    'twitter:site': '@5thavenue_co',
+  };
 
-export function setJsonLd(id, data) {
+  Object.entries(twitterTags).forEach(([name, content]) => {
+    if (!content) return;
+
+    let meta = document.querySelector(`meta[name="${name}"]`);
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.name = name;
+      document.head.appendChild(meta);
+    }
+    meta.content = content;
+  });
+};
+
+// Generate structured data for products
+export const generateProductStructuredData = product => {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description,
+    image: product.image,
+    brand: {
+      '@type': 'Brand',
+      name: product.brand,
+    },
+    offers: {
+      '@type': 'Offer',
+      price: product.price,
+      priceCurrency: 'COP',
+      availability: product.inStock
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock',
+    },
+  };
+};
+
+// Generate structured data for organization
+export const generateOrganizationStructuredData = () => {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: '5th Avenue Spanish Online',
+    url: 'https://5thavenue.com.co',
+    logo: 'https://5thavenue.com.co/logo.png',
+    description: 'Premium perfume store for the Colombian market',
+    address: {
+      '@type': 'PostalAddress',
+      addressCountry: 'CO',
+      addressLocality: 'Bogotá',
+    },
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: '+57-1-123-4567',
+      contactType: 'customer service',
+    },
+  };
+};
+
+// Set canonical URL
+export const setCanonicalUrl = url => {
+  let canonical = document.querySelector('link[rel="canonical"]');
+  if (!canonical) {
+    canonical = document.createElement('link');
+    canonical.rel = 'canonical';
+    document.head.appendChild(canonical);
+  }
+  canonical.href = url;
+};
+
+// Set JSON-LD structured data
+export const setJsonLd = (id, data) => {
   if (typeof document === 'undefined') return;
+
   // Remove existing with same id
-  const selector = `script[type="application/ld+json"][${MANAGED_ATTR}="1"][data-id="${id}"]`;
+  const selector = `script[type="application/ld+json"][data-id="${id}"]`;
   const existing = document.head.querySelector(selector);
   if (existing) existing.remove();
+
   const script = document.createElement('script');
   script.type = 'application/ld+json';
-  script.setAttribute(MANAGED_ATTR, '1');
   script.setAttribute('data-id', id);
   script.text = JSON.stringify(data);
   document.head.appendChild(script);
-}
+};

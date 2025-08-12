@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { X, ShoppingBag, ArrowRight, Star, Truck, Eye } from 'lucide-react';
+import { X, ShoppingBag, ArrowRight, Truck } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../../services/supabase';
 import { formatCOP, toCOPAmount } from '../../utils/helpers';
 import PriceWithDiscount from './PriceWithDiscount';
-import { useCart } from '../../contexts/CartContext';
+import { useCart } from '../../context/CartContext';
 
 const Cart = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
@@ -17,8 +17,6 @@ const Cart = ({ isOpen, onClose }) => {
     cartItemCount,
     isPromosProduct,
     getItemPrice,
-    getPromosItemsCount,
-    getPromosSavings,
     addToCart,
     addToCartSilent,
     isInCart,

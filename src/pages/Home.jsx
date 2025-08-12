@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef, memo } from 'react';
 import { setPageSEO } from '../utils/seo';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ArrowRight, Eye } from 'lucide-react';
 import { supabase, db } from '../services/supabase';
-import whiteCartIcon from '../assets/icons/white_cart.svg';
 
 import banner1 from '../assets/images/banner1.webp';
 import banner1m from '../assets/images/banner1m.webp';
@@ -15,10 +14,10 @@ import banner5m from '../assets/images/banner5m.webp';
 import bossImg from '../assets/images/boss.webp';
 import lacostImg from '../assets/images/lacoste.webp';
 import pacoImg from '../assets/images/paco.webp';
-import boss1 from '../assets/images/boss1.webp';
-import { useCart } from '../contexts/CartContext';
-import { useLoading } from '../contexts/LoadingContext';
-import { formatCOP, toCOPAmount } from '../utils/helpers';
+
+import { useCart } from '../context/CartContext';
+import { useLoading } from '../context/LoadingContext';
+import { formatCOP } from '../utils/helpers';
 import PriceWithDiscount from '../components/ui/PriceWithDiscount';
 import arabicImage from '../assets/images/arabic.webp';
 

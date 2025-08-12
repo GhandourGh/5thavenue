@@ -20,9 +20,9 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import ReturnRefund from './pages/ReturnRefund';
 import CookiesPolicy from './pages/CookiesPolicy';
-import { CartProvider } from './contexts/CartContext';
-import { AuthProvider } from './contexts/AuthContext';
-import { LoadingProvider, useLoading } from './contexts/LoadingContext';
+import { CartProvider } from './context/CartContext';
+import { AuthProvider } from './context/AuthContext';
+import { LoadingProvider, useLoading } from './context/LoadingContext';
 // Removed protected routes while resetting user login/cart logic
 
 function AppContent() {

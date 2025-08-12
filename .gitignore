@@ -58,6 +58,9 @@ jspm_packages/
 # Optional eslint cache
 .eslintcache
 
+# Optional stylelint cache
+.stylelintcache
+
 # Microbundle cache
 .rpt2_cache/
 .rts2_cache_cjs/
@@ -115,5 +118,30 @@ Thumbs.db
 # Cursor IDE
 .cursor/
 
+# Local Netlify folder
+.netlify
+
+# Vercel
+.vercel
+
+# Supabase
+.supabase/
+
+# Local development
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
 # Build artifacts
-5thavenue@0.1.0
+*.log
+*.tsbuildinfo
+
+# Package manager files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Optional: Uncomment if you want to ignore these
+# *.tgz
+# *.tar.gz

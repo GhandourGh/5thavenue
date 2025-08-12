@@ -1,103 +1,35 @@
-// Format price with currency
-export const formatPrice = (price, currency = 'USD') => {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: currency,
-  }).format(price);
-};
-
-// Format number as Colombian Pesos (COP) with thousand separators and no decimals.
-// Supports values saved in thousands (e.g., 200 -> $200.000) and full COP (e.g., 30000 -> $30.000).
-export const formatCOP = value => {
-  const numericValue = Number(value) || 0;
-  const isStoredInThousands = Math.abs(numericValue) < 1000;
-  const amountInCop = isStoredInThousands ? numericValue * 1000 : numericValue;
-
+// Format Colombian Peso
+export const formatCOP = amount => {
   return new Intl.NumberFormat('es-CO', {
     style: 'currency',
     currency: 'COP',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(amountInCop);
+  }).format(amount);
 };
 
-// Convert a numeric value that may be stored in thousands to an absolute COP amount (number)
-export const toCOPAmount = value => {
-  const numericValue = Number(value) || 0;
-  return Math.abs(numericValue) < 1000 ? numericValue * 1000 : numericValue;
+// Convert to COP amount (remove currency symbol)
+export const toCOPAmount = amount => {
+  return parseInt(amount.toString().replace(/[^\d]/g, ''));
 };
 
-// Unified discounted price calculation - ensures consistency across all components
-export const calculateDiscountedPrice = (originalPrice, discountPercentage) => {
-  const priceInCop = toCOPAmount(Number(originalPrice) || 0);
-  const discount = Number(discountPercentage) || 0;
-
-  if (discount <= 0) return priceInCop;
-
-  const discountedPrice = priceInCop * (1 - discount / 100);
-  return Math.round(discountedPrice);
-};
-
-// Calculate discount percentage from original and discounted prices
+// Calculate discount percentage
 export const calculateDiscountPercentage = (originalPrice, discountedPrice) => {
-  const original = toCOPAmount(Number(originalPrice) || 0);
-  const discounted = toCOPAmount(Number(discountedPrice) || 0);
-
-  if (original <= 0 || discounted >= original) return 0;
-
-  const percentage = ((original - discounted) / original) * 100;
-  return Math.ceil(percentage); // Round up for display consistency
+  if (!originalPrice || !discountedPrice) return 0;
+  return Math.round(((originalPrice - discountedPrice) / originalPrice) * 100);
 };
 
-// Format date
-export const formatDate = date => {
-  return new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-};
-
-// Show notification (for future toast implementation)
-export const showNotification = (message, type = 'info') => {
-  // This will be replaced with a proper toast notification system
-  console.log(`${type.toUpperCase()}: ${message}`);
-};
-
-// Validate email
-export const validateEmail = email => {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(email);
-};
-
-// Validate password strength
-export const validatePassword = password => {
-  const minLength = 8;
-  const hasUpperCase = /[A-Z]/.test(password);
-  const hasLowerCase = /[a-z]/.test(password);
-  const hasNumbers = /\d/.test(password);
-  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
+// Format price with discount
+export const formatPriceWithDiscount = (originalPrice, discountedPrice) => {
+  const discountPercentage = calculateDiscountPercentage(
+    originalPrice,
+    discountedPrice
+  );
   return {
-    isValid:
-      password.length >= minLength &&
-      hasUpperCase &&
-      hasLowerCase &&
-      hasNumbers &&
-      hasSpecialChar,
-    errors: {
-      length: password.length < minLength,
-      uppercase: !hasUpperCase,
-      lowercase: !hasLowerCase,
-      numbers: !hasNumbers,
-      special: !hasSpecialChar,
-    },
+    originalPrice: formatCOP(originalPrice),
+    discountedPrice: formatCOP(discountedPrice),
+    discountPercentage,
   };
-};
-
-// Generate unique ID
-export const generateId = () => {
-  return Date.now().toString(36) + Math.random().toString(36).substr(2);
 };
 
 // Debounce function
@@ -113,91 +45,50 @@ export const debounce = (func, wait) => {
   };
 };
 
-// Scroll to top utility
-export const scrollToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth',
-  });
+// Generate random ID
+export const generateId = () => {
+  return Math.random().toString(36).substr(2, 9);
 };
 
-// Local storage helpers
-export const storage = {
-  get: key => {
-    try {
-      const item = localStorage.getItem(key);
-      return item ? JSON.parse(item) : null;
-    } catch (error) {
-      console.error('Error reading from localStorage:', error);
-      return null;
-    }
-  },
-
-  set: (key, value) => {
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {
-      console.error('Error writing to localStorage:', error);
-    }
-  },
-
-  remove: key => {
-    try {
-      localStorage.removeItem(key);
-    } catch (error) {
-      console.error('Error removing from localStorage:', error);
-    }
-  },
+// Validate email
+export const validateEmail = email => {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
 };
 
-// Cart helpers
-export const cartHelpers = {
-  getCart: () => {
-    return storage.get('5thavenue_cart') || [];
-  },
+// Validate phone number (Colombian format)
+export const validatePhone = phone => {
+  const re = /^(\+57|57)?[1-9][0-9]{9}$/;
+  return re.test(phone.replace(/\s/g, ''));
+};
 
-  addToCart: (product, quantity = 1) => {
-    const cart = cartHelpers.getCart();
-    const existingItem = cart.find(item => item.id === product.id);
+// Format phone number
+export const formatPhone = phone => {
+  const cleaned = phone.replace(/\D/g, '');
+  const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+  if (match) {
+    return `(${match[1]}) ${match[2]}-${match[3]}`;
+  }
+  return phone;
+};
 
-    if (existingItem) {
-      existingItem.quantity += quantity;
-    } else {
-      cart.push({ ...product, quantity });
-    }
+// Truncate text
+export const truncateText = (text, maxLength) => {
+  if (text.length <= maxLength) return text;
+  return text.substr(0, maxLength) + '...';
+};
 
-    storage.set('5thavenue_cart', cart);
-    return cart;
-  },
+// Capitalize first letter
+export const capitalize = str => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
 
-  removeFromCart: productId => {
-    const cart = cartHelpers.getCart();
-    const updatedCart = cart.filter(item => item.id !== productId);
-    storage.set('5thavenue_cart', updatedCart);
-    return updatedCart;
-  },
-
-  updateQuantity: (productId, quantity) => {
-    const cart = cartHelpers.getCart();
-    const updatedCart = cart.map(item =>
-      item.id === productId ? { ...item, quantity } : item
-    );
-    storage.set('5thavenue_cart', updatedCart);
-    return updatedCart;
-  },
-
-  clearCart: () => {
-    storage.remove('5thavenue_cart');
-    return [];
-  },
-
-  getCartTotal: () => {
-    const cart = cartHelpers.getCart();
-    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
-  },
-
-  getCartCount: () => {
-    const cart = cartHelpers.getCart();
-    return cart.reduce((count, item) => count + item.quantity, 0);
-  },
+// Get initials from name
+export const getInitials = name => {
+  return name
+    .split(' ')
+    .map(word => word.charAt(0))
+    .join('')
+    .toUpperCase()
+    .slice(0, 2);
 };

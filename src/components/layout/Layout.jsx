@@ -6,14 +6,13 @@ import logo from '../../assets/icons/logo5th.svg';
 import eyeIcon from '../../assets/icons/eye.svg';
 import seyeIcon from '../../assets/icons/seye.svg';
 import whatsappIcon from '../../assets/icons/whatsapp.svg';
-import { useCart } from '../../contexts/CartContext';
-import { useAuth } from '../../contexts/AuthContext';
+import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
 import Cart from '../ui/Cart';
 import AddToCartModal from '../ui/AddToCartModal';
 import EmailConfirmationMessage from '../ui/EmailConfirmationMessage';
 import Toast from '../ui/Toast';
 import { supabase } from '../../services/supabase';
-import { toCOPAmount } from '../../utils/helpers';
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -87,15 +86,7 @@ const Layout = ({ children }) => {
   const isAdminPage = location.pathname.startsWith('/admin');
   const [searchParams] = useSearchParams();
   const { cartItemCount, isCartOpen, toggleCart, closeCart } = useCart();
-  const {
-    user,
-    signIn,
-    signUp,
-    signOut,
-    loading: authLoading,
-    error: authError,
-    clearError,
-  } = useAuth();
+  const { user, signIn, signUp, signOut, loading: authLoading } = useAuth();
 
   // Popular search suggestions
   const popularSearches = [

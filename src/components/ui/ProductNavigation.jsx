@@ -299,25 +299,25 @@ const ProductNavigation = ({ currentProductId, currentProductName }) => {
 
   // Get context label for back button
   const getBackLabel = () => {
-    if (!navigationContext) return '← Volver a la tienda';
+    if (!navigationContext) return 'Volver a la tienda';
 
     if (navigationContext.type === 'similar') {
-      return '← Volver a productos similares';
+      return 'Volver a productos similares';
     }
     if (navigationContext.type === 'home') {
-      return '← Volver al inicio';
+      return 'Volver al inicio';
     }
     if (navigationContext.type === 'default') {
-      return '← Volver a la tienda';
+      return 'Volver a la tienda';
     }
     if (navigationContext.category) {
-      return `← Volver a ${navigationContext.category}`;
+      return `Volver a ${navigationContext.category}`;
     }
     if (navigationContext.search) {
-      return `← Volver a búsqueda`;
+      return `Volver a búsqueda`;
     }
 
-    return '← Volver a la tienda';
+    return 'Volver a la tienda';
   };
 
   // Always render navigation, but show different states based on context

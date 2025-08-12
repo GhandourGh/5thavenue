@@ -1,25 +1,24 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { setPageSEO, setJsonLd } from '../utils/seo';
 import { useParams, Link } from 'react-router-dom';
-import { Star, Minus, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Star, Minus, Plus, ChevronLeft } from 'lucide-react';
 import { supabase } from '../services/supabase';
-import { formatCOP, toCOPAmount } from '../utils/helpers';
+import { formatCOP } from '../utils/helpers';
 import PriceWithDiscount from '../components/ui/PriceWithDiscount';
 import whiteCartIcon from '../assets/icons/white_cart.svg';
-import { useCart } from '../contexts/CartContext';
+import { useCart } from '../context/CartContext';
 import ProductNavigation from '../components/ui/ProductNavigation';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
-
   const [showAddedToCart, setShowAddedToCart] = useState(false);
+  const [showFullDescription, setShowFullDescription] = useState(false);
   const [product, setProduct] = useState(null);
   const [similarProducts, setSimilarProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [productRating, setProductRating] = useState(4.5);
   const [productReviewCount, setProductReviewCount] = useState(24);
-  const [similarProductRatings, setSimilarProductRatings] = useState({});
 
   useEffect(() => {
     loadProduct();
@@ -115,7 +114,6 @@ const ProductDetail = () => {
       data?.forEach(product => {
         ratings[product.id] = generateRandomRating();
       });
-      setSimilarProductRatings(ratings);
     } catch (error) {
       console.error('Error loading similar products:', error);
     }
@@ -138,8 +136,6 @@ const ProductDetail = () => {
     }
   }, [addToCart, product, quantity]);
 
-  const formatPrice = price => formatCOP(price);
-
   const parseNotes = value => {
     if (!value || typeof value !== 'string') return [];
     return value
@@ -149,16 +145,6 @@ const ProductDetail = () => {
   };
 
   // Removed getNoteEmoji and emoji usage
-
-  const renderNoteChip = note => (
-    <span
-      key={`note-${note}`}
-      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs bg-gray-100 text-gray-800"
-    >
-      {/* Emoji removed */}
-      <span className="capitalize">{note}</span>
-    </span>
-  );
 
   // Gallery helpers
   const gallery = React.useMemo(() => {
@@ -283,14 +269,6 @@ const ProductDetail = () => {
                       >
                         <ChevronLeft className="w-5 h-5" />
                       </button>
-                      <button
-                        type="button"
-                        onClick={goNext}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/70 hover:bg-white shadow"
-                        aria-label="Siguiente imagen"
-                      >
-                        <ChevronRight className="w-5 h-5" />
-                      </button>
                     </>
                   )}
                 </>
@@ -375,9 +353,35 @@ const ProductDetail = () => {
                   <h3 className="text-lg font-semibold text-gray-800 mb-2">
                     Descripción
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    {product.description}
-                  </p>
+                  <div className="text-gray-600 leading-relaxed">
+                    {showFullDescription ? (
+                      <div>
+                        <p>{product.description}</p>
+                        <button
+                          onClick={() => setShowFullDescription(false)}
+                          className="text-[#a10009] hover:text-[#8a0008] text-sm font-medium mt-2"
+                        >
+                          Mostrar menos
+                        </button>
+                      </div>
+                    ) : (
+                      <div>
+                        <p>
+                          {product.description.length > 150
+                            ? `${product.description.slice(0, 150)}...`
+                            : product.description}
+                        </p>
+                        {product.description.length > 150 && (
+                          <button
+                            onClick={() => setShowFullDescription(true)}
+                            className="text-[#a10009] hover:text-[#8a0008] text-sm font-medium mt-2"
+                          >
+                            Leer más
+                          </button>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
 
@@ -389,46 +393,55 @@ const ProductDetail = () => {
                 <h3 className="text-lg font-semibold text-gray-800">
                   Pirámide Olfativa
                 </h3>
-                <div className="flex flex-col gap-3 sm:gap-4">
-                  {/* Row: Top → Middle → Base */}
-                  <div className="flex flex-wrap items-start gap-x-4 gap-y-2">
-                    {product.top_notes && (
-                      <div className="flex items-start gap-2">
-                        <span className="text-sm font-semibold text-gray-900 whitespace-nowrap">
-                          Notas de Salida
-                        </span>
-                        <div className="flex flex-wrap gap-2">
-                          {parseNotes(product.top_notes).map(n =>
-                            renderNoteChip(n)
-                          )}
-                        </div>
-                      </div>
-                    )}
-                    {product.middle_notes && (
-                      <div className="flex items-start gap-2">
-                        <span className="text-sm font-semibold text-gray-900 whitespace-nowrap">
-                          Notas de Corazón
-                        </span>
-                        <div className="flex flex-wrap gap-2">
-                          {parseNotes(product.middle_notes).map(n =>
-                            renderNoteChip(n)
-                          )}
-                        </div>
-                      </div>
-                    )}
-                    {product.base_notes && (
-                      <div className="flex items-start gap-2">
-                        <span className="text-sm font-semibold text-gray-900 whitespace-nowrap">
-                          Notas de Fondo
-                        </span>
-                        <div className="flex flex-wrap gap-2">
-                          {parseNotes(product.base_notes).map(n =>
-                            renderNoteChip(n)
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                <div className="space-y-3">
+                  {product.top_notes && (
+                    <div className="flex">
+                      <span className="text-sm font-semibold text-gray-900 w-36 flex-shrink-0">
+                        Notas de Salida:
+                      </span>
+                      <span className="text-sm text-gray-700">
+                        {parseNotes(product.top_notes)
+                          .map(
+                            note =>
+                              note.charAt(0).toUpperCase() +
+                              note.slice(1).toLowerCase()
+                          )
+                          .join(', ')}
+                      </span>
+                    </div>
+                  )}
+                  {product.middle_notes && (
+                    <div className="flex">
+                      <span className="text-sm font-semibold text-gray-900 w-36 flex-shrink-0">
+                        Notas de Corazón:
+                      </span>
+                      <span className="text-sm text-gray-700">
+                        {parseNotes(product.middle_notes)
+                          .map(
+                            note =>
+                              note.charAt(0).toUpperCase() +
+                              note.slice(1).toLowerCase()
+                          )
+                          .join(', ')}
+                      </span>
+                    </div>
+                  )}
+                  {product.base_notes && (
+                    <div className="flex">
+                      <span className="text-sm font-semibold text-gray-900 w-36 flex-shrink-0">
+                        Notas de Fondo:
+                      </span>
+                      <span className="text-sm text-gray-700">
+                        {parseNotes(product.base_notes)
+                          .map(
+                            note =>
+                              note.charAt(0).toUpperCase() +
+                              note.slice(1).toLowerCase()
+                          )
+                          .join(', ')}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             )}

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { X, ArrowRight, ShoppingBag } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../../services/supabase';
-import { useCart } from '../../contexts/CartContext';
+import { useCart } from '../../context/CartContext';
 import { formatCOP, toCOPAmount } from '../../utils/helpers';
 import PriceWithDiscount from './PriceWithDiscount';
 

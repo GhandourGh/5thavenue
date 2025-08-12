@@ -15,43 +15,44 @@ import { supabase } from '../services/supabase';
 import { db } from '../services/supabase';
 import { calculateDiscountPercentage } from '../utils/helpers';
 import {
-  optimizeAndConvertToWebP,
+  convertToWebP,
+  resizeImage,
   supportsWebP,
 } from '../utils/imageConverter';
 import AdminLogin from '../components/AdminLogin';
 
 // Common fragrance notes to speed up tagging; admin can add custom too
 const PRESET_NOTES = [
-  'bergamot',
-  'lemon',
-  'grapefruit',
-  'orange',
-  'pineapple',
-  'apple',
-  'pear',
-  'lavender',
-  'rose',
-  'jasmine',
-  'violet',
-  'iris',
-  'geranium',
-  'lily',
-  'pepper',
-  'cardamom',
-  'cinnamon',
-  'nutmeg',
-  'saffron',
-  'amber',
-  'vanilla',
-  'musk',
-  'sandalwood',
-  'cedar',
-  'patchouli',
-  'oud',
-  'vetiver',
-  'tonka bean',
-  'leather',
-  'incense',
+  'Bergamota',
+  'Limón',
+  'Pomelo',
+  'Naranja',
+  'Piña',
+  'Manzana',
+  'Pera',
+  'Lavanda',
+  'Rosa',
+  'Jazmín',
+  'Violeta',
+  'Iris',
+  'Geranio',
+  'Lirio',
+  'Pimienta',
+  'Cardamomo',
+  'Canela',
+  'Nuez moscada',
+  'Azafrán',
+  'Ámbar',
+  'Vainilla',
+  'Almizcle',
+  'Sándalo',
+  'Cedro',
+  'Pachulí',
+  'Oud',
+  'Vetiver',
+  'Haba tonka',
+  'Cuero',
+  'Incienso',
 ];
 
 // Utilities to convert between stored strings and tag arrays
@@ -216,7 +217,7 @@ const Admin = () => {
     try {
       let processedFile = file;
       try {
-        processedFile = await optimizeAndConvertToWebP(file, 1200, 1200, 0.8);
+        processedFile = await resizeImage(file, 1200, 1200, 0.8);
       } catch {
         // fall back to original file
       }
@@ -615,16 +616,14 @@ const Admin = () => {
       // Convert to WebP and optimize
       let processedFile = file;
       try {
-        processedFile = await optimizeAndConvertToWebP(file, 1200, 1200, 0.8);
-        setMessage('Image converted to WebP and optimized successfully!');
+        processedFile = await resizeImage(file, 1200, 1200, 0.8);
+        setMessage('Image resized and optimized successfully!');
       } catch (conversionError) {
         console.warn(
-          'WebP conversion failed, using original file:',
+          'Image optimization failed, using original file:',
           conversionError
         );
-        setMessage(
-          'Warning: Could not convert to WebP, using original format.'
-        );
+        setMessage('Warning: Could not optimize image, using original format.');
       }
 
       // Create a unique file name with .webp extension
@@ -800,16 +799,14 @@ const Admin = () => {
       // Convert to WebP and optimize
       let processedFile = file;
       try {
-        processedFile = await optimizeAndConvertToWebP(file, 1200, 1200, 0.8);
-        setMessage('Image converted to WebP and optimized successfully!');
+        processedFile = await resizeImage(file, 1200, 1200, 0.8);
+        setMessage('Image resized and optimized successfully!');
       } catch (conversionError) {
         console.warn(
-          'WebP conversion failed, using original file:',
+          'Image optimization failed, using original file:',
           conversionError
         );
-        setMessage(
-          'Warning: Could not convert to WebP, using original format.'
-        );
+        setMessage('Warning: Could not optimize image, using original format.');
       }
 
       // Create a unique file name with .webp extension
@@ -985,7 +982,7 @@ const Admin = () => {
                 <div className="text-2xl font-bold text-red-600">
                   {products.length}
                 </div>
-                <div className="text-sm text-gray-500">Total Products</div>
+                <div className="text-sm text-gray-500">Total Productos</div>
               </div>
               <button
                 onClick={handleLogout}
@@ -1002,9 +999,9 @@ const Admin = () => {
           <div className="mb-8 border-b">
             <nav className="flex gap-4">
               {[
-                { key: 'products', label: 'Products' },
-                { key: 'orders', label: 'Orders' },
-                { key: 'analytics', label: 'Sales Analytics' },
+                { key: 'products', label: 'Productos' },
+                { key: 'orders', label: 'Pedidos' },
+                { key: 'analytics', label: 'Análisis de Ventas' },
               ].map(t => (
                 <button
                   key={t.key}
@@ -1023,7 +1020,7 @@ const Admin = () => {
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-2xl font-semibold text-gray-800 flex items-center">
                   <TrendingUp className="w-6 h-6 mr-2 text-red-600" />
-                  Sales Analytics
+                  Análisis de Ventas
                 </h2>
                 <select
                   value={analyticsRange}
@@ -1040,7 +1037,7 @@ const Admin = () => {
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="bg-gray-50 rounded-lg p-4 text-center">
-                  <div className="text-sm text-gray-500">Orders</div>
+                  <div className="text-sm text-gray-500">Pedidos</div>
                   <div className="text-2xl font-bold text-gray-800">
                     {salesSummary.count}
                   </div>
@@ -1058,7 +1055,7 @@ const Admin = () => {
               {topProducts.length > 0 && (
                 <div className="mt-6">
                   <h3 className="text-sm font-semibold text-gray-700 mb-2">
-                    Top Selling Products
+                    Productos Más Vendidos
                   </h3>
                   <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
@@ -1104,7 +1101,9 @@ const Admin = () => {
           {activeTab === 'orders' && (
             <div className="mb-12 bg-white rounded-xl p-6 border border-gray-200">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-semibold text-gray-800">Orders</h2>
+                <h2 className="text-2xl font-semibold text-gray-800">
+                  Pedidos
+                </h2>
                 <div className="flex items-center gap-2">
                   <div className="hidden md:flex items-center gap-2 mr-2">
                     <span className="text-xs text-gray-500">Filter:</span>
@@ -1146,7 +1145,7 @@ const Admin = () => {
                 </div>
               </div>
               {orders.length === 0 ? (
-                <p className="text-sm text-gray-500">No orders yet.</p>
+                <p className="text-sm text-gray-500">Aún no hay pedidos.</p>
               ) : (
                 <div className="overflow-x-auto">
                   <table className="min-w-full divide-y divide-gray-200">
@@ -1615,17 +1614,17 @@ const Admin = () => {
 
                 {/* Scent breakdown (optional) */}
                 <NotesTagSelector
-                  label="Top Notes"
+                  label="Notas de Salida"
                   tags={topNoteTags}
                   setTags={setTopNoteTags}
                 />
                 <NotesTagSelector
-                  label="Middle Notes"
+                  label="Notas de Corazón"
                   tags={middleNoteTags}
                   setTags={setMiddleNoteTags}
                 />
                 <NotesTagSelector
-                  label="Base Notes"
+                  label="Notas de Fondo"
                   tags={baseNoteTags}
                   setTags={setBaseNoteTags}
                 />
@@ -1786,7 +1785,7 @@ const Admin = () => {
             <div className="bg-white rounded-xl shadow-lg overflow-hidden">
               <div className="px-6 py-4 border-b border-gray-200">
                 <h3 className="text-lg font-semibold text-gray-800">
-                  All Products
+                  Todos los Productos
                 </h3>
               </div>
               <div className="overflow-x-auto">
@@ -1794,22 +1793,22 @@ const Admin = () => {
                   <thead className="bg-gray-50">
                     <tr>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Image
+                        Imagen
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Name
+                        Nombre
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Category
+                        Categoría
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Price
+                        Precio
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Quantity
+                        Cantidad
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Actions
+                        Acciones
                       </th>
                     </tr>
                   </thead>
@@ -1848,7 +1847,7 @@ const Admin = () => {
                             {product.quantity <= 50 && (
                               <span className="flex items-center text-orange-600 text-xs font-medium">
                                 <AlertTriangle className="w-3 h-3 mr-1" />
-                                Low Stock
+                                Stock Bajo
                               </span>
                             )}
                           </div>
@@ -1858,14 +1857,14 @@ const Admin = () => {
                             <button
                               onClick={() => handleEditClick(product)}
                               className="text-blue-600 hover:text-blue-800 transition-colors p-2 rounded-lg hover:bg-blue-50"
-                              title="Edit Product"
+                              title="Editar Producto"
                             >
                               <Edit className="w-5 h-5" />
                             </button>
                             <button
                               onClick={() => handleDeleteClick(product)}
                               className="text-red-600 hover:text-red-800 transition-colors p-2 rounded-lg hover:bg-red-50"
-                              title="Delete Product"
+                              title="Eliminar Producto"
                             >
                               <X className="w-5 h-5" />
                             </button>
@@ -2039,17 +2038,17 @@ const Admin = () => {
 
               {/* Scent breakdown (optional) */}
               <NotesTagSelector
-                label="Top Notes"
+                label="Notas de Salida"
                 tags={topNoteTags}
                 setTags={setTopNoteTags}
               />
               <NotesTagSelector
-                label="Middle Notes"
+                label="Notas de Corazón"
                 tags={middleNoteTags}
                 setTags={setMiddleNoteTags}
               />
               <NotesTagSelector
-                label="Base Notes"
+                label="Notas de Fondo"
                 tags={baseNoteTags}
                 setTags={setBaseNoteTags}
               />

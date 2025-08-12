@@ -5,7 +5,6 @@ import { supabase } from '../services/supabase';
 import { db } from '../services/supabase';
 import {
   ArrowLeft,
-  CreditCard,
   Shield,
   CheckCircle,
   User,
@@ -17,7 +16,7 @@ import {
   Save,
   X,
 } from 'lucide-react';
-import { useCart } from '../contexts/CartContext';
+import { useCart } from '../context/CartContext';
 import { formatCOP } from '../utils/helpers';
 import { calculatePaymentTotal, WOMPI_CONFIG } from '../utils/paymentUtils';
 
