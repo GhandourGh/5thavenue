@@ -1,0 +1,94 @@
+{
+  "1. Planning & Research": [
+    "Define target market (men’s, women’s, unisex, niche fragrances, Arabic perfumes, designer brands)",
+    "Research competitors (local & online perfume stores)",
+    "Decide product range: perfumes by category, brands, gift sets, testers, miniatures",
+    "Set pricing strategy & profit margins",
+    "Define shipping areas (Colombia nationwide) and shipping methods",
+    "Choose payment options (Credit Card, BOLD, COD, bank transfer)",
+    "Research legal requirements (business registration, invoicing, return policy)"
+  ],
+  "2. Branding": [
+    "Create store name, logo, and brand colors",
+    "Define brand tone & style (luxury, casual, minimalist)",
+    "Design packaging (bottles, gift boxes, shipping boxes)",
+    "Take professional product photos (bottle close-ups, lifestyle shots)",
+    "Create a brand slogan/tagline"
+  ],
+  "3. Technical Setup": [
+    "Choose e-commerce platform (Custom React/Supabase, Shopify, WooCommerce)",
+    "Purchase domain name",
+    "Choose hosting or deployment (Vercel, Netlify, dedicated hosting)",
+    "Set up SSL certificate",
+    "Create custom email (yourname@yourdomain.com)"
+  ],
+  "4. Website Features": {
+    "Core Pages": [
+      "Homepage with featured perfumes and promotions",
+      "Shop page with filters (brand, category, gender, price range)",
+      "Product detail page with title, brand, size, price, description, related products",
+      "Cart page with editable quantities",
+      "Checkout page with customer info form, payment method, shipping options",
+      "About Us page",
+      "Contact page with form and WhatsApp link",
+      "Privacy Policy, Terms, and Return Policy pages"
+    ],
+    "UI/UX": [
+      "Mobile-first responsive design",
+      "Fast load time",
+      "Clear typography & visuals",
+      "Trust badges for secure payment and authenticity guarantee",
+      "Customer reviews and testimonials"
+    ]
+  },
+  "5. E-Commerce Backend Logic": [
+    "User account system (sign up/login with email, Google, Apple, phone OTP)",
+    "Guest checkout option",
+    "Cart persistence (local storage for guests, account-based for logged-in users)",
+    "Stock management per perfume variant",
+    "Order management with status tracking",
+    "Email notifications (order confirmation, shipping updates)",
+    "Discount code system (optional)"
+  ],
+  "6. Colombian Market Specific": [
+    "Cities/departments dropdown for shipping",
+    "Payment gateway integration for Colombia (BOLD, PayU, Wompi)",
+    "COD option with admin confirmation",
+    "Currency set to COP",
+    "WhatsApp chat integration",
+    "Shipping integration with local couriers"
+  ],
+  "7. Marketing Setup": [
+    "SEO optimization for products and pages",
+    "Google Analytics & Facebook Pixel integration",
+    "Social media links",
+    "Newsletter signup and email marketing automation",
+    "Launch campaign with discounts or free shipping",
+    "Influencer collaborations"
+  ],
+  "8. Testing Before Launch": [
+    "Test payment methods",
+    "Test cart persistence",
+    "Test checkout form validation",
+    "Test responsive layouts",
+    "Test admin order management",
+    "Test email notifications",
+    "Test search and filters",
+    "Test stock updating after purchase",
+    "Test product image loading speed"
+  ],
+  "9. Launch": [
+    "Announce launch on social media and email",
+    "Offer launch discounts or bundles",
+    "Monitor analytics and sales"
+  ],
+  "10. Post-Launch & Maintenance": [
+    "Update inventory regularly",
+    "Add seasonal and new collections",
+    "Respond to customer inquiries quickly",
+    "Collect and display customer reviews",
+    "Run retargeting ads for cart abandonment",
+    "Monitor site speed and uptime",
+    "Continue SEO and content updates"
+  ]
+}

@@ -4,25 +4,22 @@
   "private": true,
   "homepage": "https://ghandourgh.github.io/5thavenue",
   "dependencies": {
-    "@testing-library/dom": "^10.4.1",
-    "@testing-library/jest-dom": "^6.6.4",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.126",
-    "@types/react": "^19.1.9",
-    "@types/react-dom": "^19.1.7",
+    "@supabase/supabase-js": "^2.53.0",
+    "lucide-react": "^0.536.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-scripts": "5.0.1",
-    "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
+    "react-router-dom": "^7.7.1",
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "format": "prettier --write \"src/**/*.{js,jsx}\" \"public/**/*.{html,css}\" \"*.{js,jsx,json,md}\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx}\" \"public/**/*.{html,css}\" \"*.{js,jsx,json,md}\"",
+    "lint": "eslint src --ext .js,.jsx --fix",
+    "prebuild": "npm run format",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
@@ -45,6 +42,13 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^6.3.0"
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.16",
+    "autoprefixer": "^10.4.21",
+    "gh-pages": "^6.3.0",
+    "postcss": "^8.5.6",
+    "prettier": "^3.6.2",
+    "sharp": "^0.34.3",
+    "tailwindcss": "^3.4.17"
   }
 }

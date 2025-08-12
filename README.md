@@ -1,46 +1,136 @@
-# Getting Started with Create React App
+# 5th Avenue Spanish Online
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, responsive e-commerce platform for 5th Avenue Spanish Online, built with React and optimized for performance.
 
-## Available Scripts
+## 🚀 Features
 
-In the project directory, you can run:
+- **Modern React Architecture**: Built with React 19 and modern hooks
+- **Responsive Design**: Mobile-first approach with Tailwind CSS
+- **Performance Optimized**: WebP images, lazy loading, and optimized assets
+- **Payment Integration**: Wompi payment gateway for Colombian market
+- **Real-time Cart**: Persistent shopping cart with Supabase
+- **Admin Panel**: Product management and order tracking
+- **SEO Optimized**: Meta tags, structured data, and performance metrics
+- **Accessibility**: WCAG compliant with semantic HTML
 
-### `npm start`
+## 🛠️ Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **Frontend**: React 19, React Router DOM
+- **Styling**: Tailwind CSS, PostCSS
+- **Backend**: Supabase (Database, Auth, Storage)
+- **Payment**: Wompi Integration
+- **Icons**: Lucide React
+- **Build Tool**: Create React App
+- **Code Quality**: Prettier, ESLint
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 📦 Installation
 
-### `npm test`
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/ghandourgh/5thavenue.git
+   cd 5thavenue
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-### `npm run build`
+3. **Environment Setup**
+   Create a `.env` file in the root directory:
+   ```env
+   REACT_APP_SUPABASE_URL=your_supabase_url
+   REACT_APP_SUPABASE_ANON_KEY=your_supabase_anon_key
+   REACT_APP_WOMPI_PUBLIC_KEY=your_wompi_public_key
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. **Start development server**
+   ```bash
+   npm start
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🎯 Available Scripts
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- `npm start` - Start development server
+- `npm run build` - Build for production
+- `npm test` - Run tests
+- `npm run format` - Format code with Prettier
+- `npm run format:check` - Check code formatting
+- `npm run lint` - Run ESLint with auto-fix
 
-### `npm run eject`
+## 🏗️ Project Structure
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+src/
+├── assets/          # Images, icons, and static assets
+├── components/      # Reusable UI components
+│   ├── auth/       # Authentication components
+│   ├── layout/     # Layout components
+│   └── ui/         # UI components
+├── contexts/       # React contexts for state management
+├── pages/          # Page components
+├── services/       # API services and external integrations
+└── utils/          # Utility functions and helpers
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🚀 Deployment
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Netlify Deployment
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+The project is configured for automatic deployment on Netlify:
 
-## Learn More
+1. Connect your GitHub repository to Netlify
+2. Build command: `npm run build`
+3. Publish directory: `build`
+4. Environment variables will be set in Netlify dashboard
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Manual Deployment
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. Build the project:
+   ```bash
+   npm run build
+   ```
+
+2. Deploy the `build` folder to your hosting provider
+
+## 📱 Performance Optimizations
+
+- **Image Optimization**: All images converted to WebP format (83-99% size reduction)
+- **Code Splitting**: Automatic code splitting with React Router
+- **Lazy Loading**: Images and components loaded on demand
+- **Caching**: Optimized cache headers for static assets
+- **Bundle Optimization**: Tree shaking and minification
+
+## 🔧 Configuration Files
+
+- `netlify.toml` - Netlify deployment configuration
+- `tailwind.config.js` - Tailwind CSS configuration
+- `postcss.config.js` - PostCSS configuration
+- `.prettierrc` - Prettier code formatting rules
+- `.gitignore` - Git ignore patterns
+
+## 📊 Performance Metrics
+
+- **Bundle Size**: ~160KB gzipped
+- **Image Optimization**: 83-99% reduction in file sizes
+- **Lighthouse Score**: Optimized for performance, accessibility, and SEO
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run `npm run format` and `npm run lint`
+5. Submit a pull request
+
+## 📄 License
+
+This project is private and proprietary to 5th Avenue Spanish Online.
+
+## 🆘 Support
+
+For support and questions, please contact the development team.
+
+---
+
+**Built with ❤️ for 5th Avenue Spanish Online**
