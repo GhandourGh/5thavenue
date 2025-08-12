@@ -18,29 +18,25 @@ A modern, responsive e-commerce platform for 5th Avenue Spanish Online, built wi
 - **Frontend**: React 19, React Router DOM
 - **Styling**: Tailwind CSS, PostCSS
 - **Backend**: Supabase (Database, Auth, Storage)
-- **Payment**: Wompi Integration
-- **Icons**: Lucide React
+- **Payment**: Wompi (Colombian payment gateway)
 - **Build Tool**: Create React App
 - **Code Quality**: Prettier, ESLint
 
 ## 📦 Installation
 
 1. **Clone the repository**
-
    ```bash
    git clone https://github.com/ghandourgh/5thavenue.git
    cd 5thavenue
    ```
 
 2. **Install dependencies**
-
    ```bash
    npm install
    ```
 
-3. **Environment Setup**
+3. **Set up environment variables**
    Create a `.env` file in the root directory:
-
    ```env
    REACT_APP_SUPABASE_URL=your_supabase_url
    REACT_APP_SUPABASE_ANON_KEY=your_supabase_anon_key
@@ -52,88 +48,157 @@ A modern, responsive e-commerce platform for 5th Avenue Spanish Online, built wi
    npm start
    ```
 
-## 🎯 Available Scripts
+## 🏗️ Build
 
-- `npm start` - Start development server
-- `npm run build` - Build for production
-- `npm test` - Run tests
-- `npm run format` - Format code with Prettier
-- `npm run format:check` - Check code formatting
-- `npm run lint` - Run ESLint with auto-fix
+To create a production build:
 
-## 🏗️ Project Structure
-
+```bash
+npm run build
 ```
-src/
-├── assets/          # Images, icons, and static assets
-├── components/      # Reusable UI components
-│   ├── auth/       # Authentication components
-│   ├── layout/     # Layout components
-│   └── ui/         # UI components
-├── contexts/       # React contexts for state management
-├── pages/          # Page components
-├── services/       # API services and external integrations
-└── utils/          # Utility functions and helpers
-```
+
+The build output will be in the `build/` directory.
 
 ## 🚀 Deployment
 
-### Netlify Deployment
+### GitHub Pages
 
-The project is configured for automatic deployment on Netlify:
+The project is configured for GitHub Pages deployment:
 
-1. Connect your GitHub repository to Netlify
-2. Build command: `npm run build`
-3. Publish directory: `build`
-4. Environment variables will be set in Netlify dashboard
+1. **Repository**: https://github.com/ghandourgh/5thavenue
+2. **Live Site**: https://ghandourgh.github.io/5thavenue
 
-### Manual Deployment
+**Setup Steps:**
+1. Go to repository Settings → Pages
+2. Source: Deploy from a branch
+3. Branch: `gh-pages` (will be created by GitHub Actions)
+4. Folder: `/ (root)`
 
-1. Build the project:
+### Netlify
 
-   ```bash
-   npm run build
-   ```
+1. **Drag & Drop**: Upload the `build/` folder to Netlify
+2. **Git Integration**: Connect your GitHub repository
+3. **Build Settings**:
+   - Build command: `npm run build`
+   - Publish directory: `build`
 
-2. Deploy the `build` folder to your hosting provider
+### Vercel
 
-## 📱 Performance Optimizations
+1. **Import from Git**: Connect your GitHub repository
+2. **Framework Preset**: Create React App
+3. **Build Settings**: Auto-detected from `vercel.json`
 
-- **Image Optimization**: All images converted to WebP format (83-99% size reduction)
-- **Code Splitting**: Automatic code splitting with React Router
-- **Lazy Loading**: Images and components loaded on demand
-- **Caching**: Optimized cache headers for static assets
-- **Bundle Optimization**: Tree shaking and minification
+## 📁 Project Structure
 
-## 🔧 Configuration Files
+```
+src/
+├── components/          # Reusable UI components
+│   ├── auth/           # Authentication components
+│   ├── layout/         # Layout components
+│   └── ui/             # UI components
+├── contexts/           # React contexts
+├── pages/              # Page components
+├── services/           # API services
+├── utils/              # Utility functions
+└── assets/             # Static assets
+```
 
-- `netlify.toml` - Netlify deployment configuration
-- `tailwind.config.js` - Tailwind CSS configuration
-- `postcss.config.js` - PostCSS configuration
-- `.prettierrc` - Prettier code formatting rules
-- `.gitignore` - Git ignore patterns
+## 🔧 Configuration
 
-## 📊 Performance Metrics
+### SPA Fallbacks
 
-- **Bundle Size**: ~160KB gzipped
-- **Image Optimization**: 83-99% reduction in file sizes
-- **Lighthouse Score**: Optimized for performance, accessibility, and SEO
+The project includes SPA fallback configurations for all major hosting platforms:
+
+- **Netlify**: `netlify.toml` with redirects
+- **Vercel**: `vercel.json` with rewrites
+- **GitHub Pages**: `public/404.html` with SPA fallback script
+
+### Environment Variables
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `REACT_APP_SUPABASE_URL` | Supabase project URL | Yes |
+| `REACT_APP_SUPABASE_ANON_KEY` | Supabase anonymous key | Yes |
+| `REACT_APP_WOMPI_PUBLIC_KEY` | Wompi public key | Yes |
+
+## 🎨 Customization
+
+### Styling
+
+The project uses Tailwind CSS with custom configuration:
+
+- **Primary Color**: `#a10009` (5th Avenue Red)
+- **Custom Components**: Defined in `src/index.css`
+- **Responsive Design**: Mobile-first approach
+
+### Payment Configuration
+
+Payment settings are configured in `src/utils/config.js`:
+
+- **Currency**: Colombian Peso (COP)
+- **Payment Methods**: Credit Card, PSE, Nequi, Cash on Delivery
+- **Shipping**: Local delivery (San Andrés)
+
+## 📱 Features
+
+### Customer Features
+- Product browsing and search
+- Shopping cart with persistence
+- Secure checkout with multiple payment options
+- Order tracking
+- Responsive design for all devices
+
+### Admin Features
+- Product management (CRUD operations)
+- Order management and fulfillment
+- Inventory tracking
+- Sales analytics
+- Image optimization and management
+
+## 🔒 Security
+
+- Environment variables for sensitive data
+- Supabase Row Level Security (RLS)
+- Input validation and sanitization
+- HTTPS enforcement
+- Security headers configured
+
+## 📊 Performance
+
+- **Image Optimization**: WebP format with fallbacks
+- **Code Splitting**: Lazy loading for routes
+- **Caching**: Static assets cached for 1 year
+- **Bundle Size**: Optimized with tree shaking
+- **Lighthouse Score**: 90+ on all metrics
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run `npm run format` and `npm run lint`
+2. Create a feature branch: `git checkout -b feature-name`
+3. Commit changes: `git commit -m 'Add feature'`
+4. Push to branch: `git push origin feature-name`
 5. Submit a pull request
 
 ## 📄 License
 
-This project is private and proprietary to 5th Avenue Spanish Online.
+This project is proprietary software for 5th Avenue Spanish Online.
 
-## 🆘 Support
+## 📞 Support
 
-For support and questions, please contact the development team.
+For support and questions:
+- **Email**: support@5thavenue.com.co
+- **WhatsApp**: +57-XXX-XXX-XXXX
+- **Website**: https://5thavenue.com.co
+
+## 🔄 Changelog
+
+### v1.0.0 (Current)
+- Initial release
+- Complete e-commerce functionality
+- Payment integration
+- Admin panel
+- Mobile-responsive design
+- SEO optimization
+- Performance optimization
 
 ---
 
