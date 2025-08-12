@@ -1,234 +1,136 @@
-# 5thAvenue - Premium Perfume Store
+# 5th Avenue Spanish Online
 
-A modern e-commerce website for luxury fragrances and perfumes, built with React and Supabase.
+A modern, responsive e-commerce platform for 5th Avenue Spanish Online, built with React and optimized for performance.
 
 ## 🚀 Features
 
-- **Modern UI/UX**: Clean, responsive design with Tailwind CSS
-- **Supabase Integration**: Database and authentication ready
-- **Admin Panel**: Complete admin setup for store management
-- **Mobile First**: Optimized for all device sizes
-- **Performance Optimized**: Fast loading and smooth interactions
+- **Modern React Architecture**: Built with React 19 and modern hooks
+- **Responsive Design**: Mobile-first approach with Tailwind CSS
+- **Performance Optimized**: WebP images, lazy loading, and optimized assets
+- **Payment Integration**: Wompi payment gateway for Colombian market
+- **Real-time Cart**: Persistent shopping cart with Supabase
+- **Admin Panel**: Product management and order tracking
+- **SEO Optimized**: Meta tags, structured data, and performance metrics
+- **Accessibility**: WCAG compliant with semantic HTML
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React 18 with JSX
-- **Styling**: Tailwind CSS with custom design system
-- **Routing**: React Router DOM
-- **Database**: Supabase (PostgreSQL)
-- **Authentication**: Supabase Auth
+- **Frontend**: React 19, React Router DOM
+- **Styling**: Tailwind CSS, PostCSS
+- **Backend**: Supabase (Database, Auth, Storage)
+- **Payment**: Wompi Integration
 - **Icons**: Lucide React
-- **State Management**: React Hooks
+- **Build Tool**: Create React App
+- **Code Quality**: Prettier, ESLint
 
-## 📁 Project Structure
-
-```
-src/
-├── components/
-│   ├── ui/           # Reusable UI components
-│   ├── layout/       # Layout components
-│   └── admin/        # Admin-specific components
-├── pages/            # Page components
-├── hooks/            # Custom React hooks
-├── services/         # API and external services
-├── utils/            # Utility functions
-├── assets/           # Images, icons, etc.
-└── styles/           # Global styles
-```
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js (v16 or higher)
-- npm or yarn
-- Supabase account
-
-### Installation
+## 📦 Installation
 
 1. **Clone the repository**
-
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/ghandourgh/5thavenue.git
    cd 5thavenue
    ```
 
 2. **Install dependencies**
-
    ```bash
    npm install
    ```
 
-3. **Set up environment variables**
+3. **Environment Setup**
    Create a `.env` file in the root directory:
-
    ```env
    REACT_APP_SUPABASE_URL=your_supabase_url
    REACT_APP_SUPABASE_ANON_KEY=your_supabase_anon_key
+   REACT_APP_WOMPI_PUBLIC_KEY=your_wompi_public_key
    ```
 
-4. **Start the development server**
-
+4. **Start development server**
    ```bash
    npm start
    ```
 
-5. **Access the application**
-   - Main site: http://localhost:3000
-   - Admin setup: http://localhost:3000/admin
-
-## 🎨 Design System
-
-### Colors
-
-- **Primary**: `#CFA386` (Warm beige)
-- **Secondary**: `#ECDACF` (Light cream)
-- **Text Primary**: `#ffffff` (White)
-- **Text Secondary**: `#1C4534` (Dark green)
-
-### Typography
-
-- **Font Family**: Inter (Google Fonts)
-- **Weights**: 300, 400, 500, 600, 700
-
-## 🔧 Supabase Setup
-
-### 1. Create Supabase Project
-
-1. Go to [supabase.com](https://supabase.com)
-2. Create a new project
-3. Note your project URL and anon key
-
-### 2. Database Tables
-
-The following tables will be created automatically:
-
-#### Products Table
-
-```sql
-CREATE TABLE products (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  name VARCHAR NOT NULL,
-  description TEXT,
-  price DECIMAL(10,2) NOT NULL,
-  image_url TEXT,
-  category_id UUID REFERENCES categories(id),
-  stock_quantity INTEGER DEFAULT 0,
-  is_active BOOLEAN DEFAULT true,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-```
-
-#### Categories Table
-
-```sql
-CREATE TABLE categories (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  name VARCHAR NOT NULL,
-  description TEXT,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-```
-
-#### Orders Table
-
-```sql
-CREATE TABLE orders (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id UUID REFERENCES auth.users(id),
-  status VARCHAR DEFAULT 'pending',
-  total_amount DECIMAL(10,2) NOT NULL,
-  shipping_address JSONB,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-```
-
-### 3. Admin Setup
-
-1. Navigate to `/admin` in your application
-2. Enter your Supabase credentials
-3. Test the connection
-4. Create an admin user account
-
-## 📱 Available Scripts
+## 🎯 Available Scripts
 
 - `npm start` - Start development server
 - `npm run build` - Build for production
 - `npm test` - Run tests
-- `npm run eject` - Eject from Create React App
+- `npm run format` - Format code with Prettier
+- `npm run format:check` - Check code formatting
+- `npm run lint` - Run ESLint with auto-fix
 
-## 🎯 Development Guidelines
+## 🏗️ Project Structure
 
-### Code Style
-
-- Use JSX files (`.jsx`) instead of TypeScript
-- Follow component naming conventions
-- Use descriptive variable and function names
-- Keep components focused and single-purpose
-
-### Styling
-
-- Use Tailwind CSS classes
-- Follow mobile-first responsive design
-- Use CSS variables for consistent theming
-- Maintain clean, readable code
-
-### Performance
-
-- Optimize images (max 300KB)
-- Use lazy loading for non-critical components
-- Minimize API calls with proper caching
-- Avoid inline logic in JSX
-
-## 🔒 Security
-
-- Environment variables for sensitive data
-- Supabase Row Level Security (RLS)
-- Input validation and sanitization
-- Secure authentication flow
+```
+src/
+├── assets/          # Images, icons, and static assets
+├── components/      # Reusable UI components
+│   ├── auth/       # Authentication components
+│   ├── layout/     # Layout components
+│   └── ui/         # UI components
+├── contexts/       # React contexts for state management
+├── pages/          # Page components
+├── services/       # API services and external integrations
+└── utils/          # Utility functions and helpers
+```
 
 ## 🚀 Deployment
 
-### Build for Production
+### Netlify Deployment
 
-```bash
-npm run build
-```
-
-### Deploy to Vercel
-
-1. Connect your GitHub repository to Vercel
-2. Set environment variables in Vercel dashboard
-3. Deploy automatically on push to main branch
-
-### Deploy to Netlify
+The project is configured for automatic deployment on Netlify:
 
 1. Connect your GitHub repository to Netlify
-2. Set build command: `npm run build`
-3. Set publish directory: `build`
-4. Configure environment variables
+2. Build command: `npm run build`
+3. Publish directory: `build`
+4. Environment variables will be set in Netlify dashboard
+
+### Manual Deployment
+
+1. Build the project:
+   ```bash
+   npm run build
+   ```
+
+2. Deploy the `build` folder to your hosting provider
+
+## 📱 Performance Optimizations
+
+- **Image Optimization**: All images converted to WebP format (83-99% size reduction)
+- **Code Splitting**: Automatic code splitting with React Router
+- **Lazy Loading**: Images and components loaded on demand
+- **Caching**: Optimized cache headers for static assets
+- **Bundle Optimization**: Tree shaking and minification
+
+## 🔧 Configuration Files
+
+- `netlify.toml` - Netlify deployment configuration
+- `tailwind.config.js` - Tailwind CSS configuration
+- `postcss.config.js` - PostCSS configuration
+- `.prettierrc` - Prettier code formatting rules
+- `.gitignore` - Git ignore patterns
+
+## 📊 Performance Metrics
+
+- **Bundle Size**: ~160KB gzipped
+- **Image Optimization**: 83-99% reduction in file sizes
+- **Lighthouse Score**: Optimized for performance, accessibility, and SEO
 
 ## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Test thoroughly
+4. Run `npm run format` and `npm run lint`
 5. Submit a pull request
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+This project is private and proprietary to 5th Avenue Spanish Online.
 
 ## 🆘 Support
 
-For support and questions:
-
-- Create an issue in the repository
-- Contact the development team
-- Check the documentation
+For support and questions, please contact the development team.
 
 ---
 
-**5thAvenue** - Premium fragrances for the discerning customer.
+**Built with ❤️ for 5th Avenue Spanish Online**
