@@ -575,7 +575,8 @@ const Admin = () => {
     if (!price) return '';
     const num = parseFloat(price);
     if (isNaN(num)) return price;
-    return num.toLocaleString('es-CO');
+    // Manual formatting to ensure Colombian Peso format
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   };
 
   // Helper function to parse price from display format (e.g., 100.000 -> 100000)
