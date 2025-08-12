@@ -5,7 +5,7 @@ export const formatCOP = amount => {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount);
-  
+
   return `$ ${number}`;
 };
 

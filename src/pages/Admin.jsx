@@ -570,19 +570,48 @@ const Admin = () => {
     if (!tops.error) setTopProducts(tops.data);
   };
 
+  // Helper function to format price for display (e.g., 100000 -> 100.000)
+  const formatPriceForDisplay = price => {
+    if (!price) return '';
+    const num = parseFloat(price);
+    if (isNaN(num)) return price;
+    return num.toLocaleString('es-CO');
+  };
+
+  // Helper function to parse price from display format (e.g., 100.000 -> 100000)
+  const parsePriceFromDisplay = displayPrice => {
+    if (!displayPrice) return '';
+    // Remove dots and convert to number
+    const cleanPrice = displayPrice.replace(/\./g, '');
+    const num = parseFloat(cleanPrice);
+    return isNaN(num) ? displayPrice : num.toString();
+  };
+
   const handleInputChange = e => {
     const { name, value } = e.target;
     setFormData(prev => {
       const next = { ...prev, [name]: value };
-      // Auto-calculate discount when original/discounted change
+
+      // Handle price formatting for display
       if (name === 'original_price' || name === 'discounted_price') {
+        // Format the display value
+        const formattedValue = formatPriceForDisplay(value);
+        next[name] = formattedValue;
+
+        // Auto-calculate discount when original/discounted change
         const original =
-          parseFloat(name === 'original_price' ? value : next.original_price) ||
-          0;
+          parseFloat(
+            parsePriceFromDisplay(
+              name === 'original_price' ? value : next.original_price
+            )
+          ) || 0;
         const discounted =
           parseFloat(
-            name === 'discounted_price' ? value : next.discounted_price
+            parsePriceFromDisplay(
+              name === 'discounted_price' ? value : next.discounted_price
+            )
           ) || 0;
+
         if (original > 0 && discounted > 0) {
           const pct = calculateDiscountPercentage(original, discounted);
           next.discount = pct;
@@ -677,9 +706,9 @@ const Admin = () => {
       description: product.description,
       // Keep discounted price as active price in the form
       original_price: originalFromExisting
-        ? Number(originalFromExisting.toFixed(2))
+        ? formatPriceForDisplay(Number(originalFromExisting.toFixed(2)))
         : '',
-      discounted_price: discountedPrice || '',
+      discounted_price: formatPriceForDisplay(discountedPrice) || '',
       discount: currentDiscount,
       quantity: product.quantity,
       image_url: product.image_url,
@@ -721,7 +750,9 @@ const Admin = () => {
       const productData = {
         name: editingProduct.name,
         description: editingProduct.description,
-        price: parseFloat(editingProduct.discounted_price),
+        price: parseFloat(
+          parsePriceFromDisplay(editingProduct.discounted_price)
+        ),
         discount: computedEditDiscount > 0 ? computedEditDiscount : 0,
         quantity: parseInt(editingProduct.quantity),
         image_url: editGalleryUrls[0] || editingProduct.image_url || null,
@@ -766,12 +797,33 @@ const Admin = () => {
     const { name, value } = e.target;
     setEditingProduct(prev => {
       const next = { ...prev, [name]: value };
+
+      // Handle price formatting for display
       if (name === 'original_price' || name === 'discounted_price') {
+        // Format the display value
+        const formattedValue = formatPriceForDisplay(value);
+        next[name] = formattedValue;
+
+        // Auto-calculate discount when original/discounted change
         const original =
-          name === 'original_price' ? value : next.original_price;
+          parseFloat(
+            parsePriceFromDisplay(
+              name === 'original_price' ? value : next.original_price
+            )
+          ) || 0;
         const discounted =
-          name === 'discounted_price' ? value : next.discounted_price;
-        next.discount = calculateDiscountPercentage(original, discounted);
+          parseFloat(
+            parsePriceFromDisplay(
+              name === 'discounted_price' ? value : next.discounted_price
+            )
+          ) || 0;
+
+        if (original > 0 && discounted > 0) {
+          const pct = calculateDiscountPercentage(original, discounted);
+          next.discount = pct;
+        } else {
+          next.discount = 0;
+        }
       }
       return next;
     });
@@ -847,8 +899,10 @@ const Admin = () => {
     setMessage('');
 
     try {
-      const original = parseFloat(formData.original_price) || 0;
-      const discounted = parseFloat(formData.discounted_price) || 0;
+      const original =
+        parseFloat(parsePriceFromDisplay(formData.original_price)) || 0;
+      const discounted =
+        parseFloat(parsePriceFromDisplay(formData.discounted_price)) || 0;
       const shouldApplyDiscount =
         original > 0 && discounted > 0 && discounted < original;
       const priceToSave = shouldApplyDiscount ? discounted : original;
@@ -1543,13 +1597,11 @@ const Admin = () => {
                     Original Price *
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     name="original_price"
                     value={formData.original_price}
                     onChange={handleInputChange}
                     required
-                    min="0"
-                    step="0.01"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-red-600 transition-colors"
                     placeholder="e.g. 310.000"
                   />
@@ -1560,12 +1612,10 @@ const Admin = () => {
                     Discounted Price
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     name="discounted_price"
                     value={formData.discounted_price}
                     onChange={handleInputChange}
-                    min="0"
-                    step="0.01"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-red-600 transition-colors"
                     placeholder="e.g. 242.000"
                   />
@@ -1971,13 +2021,11 @@ const Admin = () => {
                   Original Price *
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   name="original_price"
                   value={editingProduct.original_price}
                   onChange={handleEditInputChange}
                   required
-                  min="0"
-                  step="0.01"
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-colors"
                 />
               </div>
@@ -1987,12 +2035,10 @@ const Admin = () => {
                   Discounted Price
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   name="discounted_price"
                   value={editingProduct.discounted_price}
                   onChange={handleEditInputChange}
-                  min="0"
-                  step="0.01"
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-colors"
                 />
                 {Number(editingProduct.original_price) > 0 &&
