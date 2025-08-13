@@ -596,33 +596,52 @@ const Admin = () => {
 
       // Handle price formatting for display
       if (name === 'original_price' || name === 'discounted_price') {
-        // Format the display value
-        const formattedValue = formatPriceForDisplay(value);
-        next[name] = formattedValue;
+        // Only format if the value is complete (not during typing)
+        // Allow typing without immediate formatting
+        if (value && value.length > 0) {
+          // Remove any non-digit characters except dots for typing
+          const cleanValue = value.replace(/[^\d.]/g, '');
+          next[name] = cleanValue;
 
-        // Auto-calculate discount when original/discounted change
-        const original =
-          parseFloat(
-            parsePriceFromDisplay(
-              name === 'original_price' ? value : next.original_price
-            )
-          ) || 0;
-        const discounted =
-          parseFloat(
-            parsePriceFromDisplay(
-              name === 'discounted_price' ? value : next.discounted_price
-            )
-          ) || 0;
+          // Auto-calculate discount when original/discounted change
+          const original =
+            parseFloat(
+              parsePriceFromDisplay(
+                name === 'original_price' ? cleanValue : next.original_price
+              )
+            ) || 0;
+          const discounted =
+            parseFloat(
+              parsePriceFromDisplay(
+                name === 'discounted_price' ? cleanValue : next.discounted_price
+              )
+            ) || 0;
 
-        if (original > 0 && discounted > 0) {
-          const pct = calculateDiscountPercentage(original, discounted);
-          next.discount = pct;
-        } else {
-          next.discount = 0;
+          if (original > 0 && discounted > 0) {
+            const pct = calculateDiscountPercentage(original, discounted);
+            next.discount = pct;
+          } else {
+            next.discount = 0;
+          }
         }
       }
       return next;
     });
+  };
+
+  // Handle blur event to format price when user finishes typing
+  const handleBlur = e => {
+    const { name, value } = e.target;
+    if (name === 'original_price' || name === 'discounted_price') {
+      if (value && value.length > 0) {
+        // Format the price for display when user leaves the field
+        const formattedValue = formatPriceForDisplay(value);
+        setFormData(prev => ({
+          ...prev,
+          [name]: formattedValue,
+        }));
+      }
+    }
   };
 
   const handleImageUpload = async e => {
@@ -1603,6 +1622,7 @@ const Admin = () => {
                     name="original_price"
                     value={formData.original_price}
                     onChange={handleInputChange}
+                    onBlur={handleBlur}
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-red-600 transition-colors"
                     placeholder="e.g. 310.000"
@@ -1618,6 +1638,7 @@ const Admin = () => {
                     name="discounted_price"
                     value={formData.discounted_price}
                     onChange={handleInputChange}
+                    onBlur={handleBlur}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-red-600 transition-colors"
                     placeholder="e.g. 242.000"
                   />
@@ -2027,6 +2048,7 @@ const Admin = () => {
                   name="original_price"
                   value={editingProduct.original_price}
                   onChange={handleEditInputChange}
+                  onBlur={handleBlur}
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-colors"
                 />
@@ -2041,6 +2063,7 @@ const Admin = () => {
                   name="discounted_price"
                   value={editingProduct.discounted_price}
                   onChange={handleEditInputChange}
+                  onBlur={handleBlur}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-colors"
                 />
                 {Number(editingProduct.original_price) > 0 &&
