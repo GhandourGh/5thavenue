@@ -288,6 +288,7 @@ const Admin = () => {
         throw error;
       }
 
+      console.log('Admin products loaded:', data?.slice(0, 3)); // Log first 3 products
       setProducts(data || []);
     } catch (error) {
       console.error('Error loading products:', error);

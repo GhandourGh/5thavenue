@@ -134,6 +134,7 @@ const Products = () => {
         excludePromos: true,
       });
       if (error) throw error;
+      console.log('Products loaded:', data?.slice(0, 3)); // Log first 3 products
       setProducts(data || []);
       setTotal(count || 0);
     } catch (error) {
