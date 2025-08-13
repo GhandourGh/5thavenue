@@ -309,57 +309,66 @@ export const CartProvider = ({ children }) => {
   const getItemPrice = useCallback(item => {
     const numericPrice = Number(item.price) || 0;
     const quantity = Math.max(0, Number(item.quantity) || 0);
-    const unitPriceCop = toCOPAmount(numericPrice);
-
-    const bulkPriceForTen = PROMO_BULK_PRICING.current[unitPriceCop];
-    if (!bulkPriceForTen || quantity < 1) {
-      return unitPriceCop * quantity;
-    }
-
-    const bundleCount = Math.floor(quantity / 10);
-    const remainder = quantity % 10;
-    const totalWithBundles =
-      bundleCount * bulkPriceForTen + remainder * unitPriceCop;
-    return totalWithBundles;
+    
+    // For now, disable promo pricing to fix the calculation issue
+    // const unitPriceCop = toCOPAmount(numericPrice);
+    // const bulkPriceForTen = PROMO_BULK_PRICING.current[unitPriceCop];
+    // if (!bulkPriceForTen || quantity < 1) {
+    //   return unitPriceCop * quantity;
+    // }
+    // const bundleCount = Math.floor(quantity / 10);
+    // const remainder = quantity % 10;
+    // const totalWithBundles =
+    //   bundleCount * bulkPriceForTen + remainder * unitPriceCop;
+    // return totalWithBundles;
+    
+    // Simple calculation: price * quantity
+    return numericPrice * quantity;
   }, []);
 
   // Determine if a given category contains promo-eligible items (by unit price pattern)
   const isPromosProduct = useCallback(
     categoryId => {
-      if (!categoryId) return false;
-      const item = cart.find(it => it.category_id === categoryId);
-      if (!item) return false;
-      const unitPriceCop = toCOPAmount(Number(item.price) || 0);
-      return Boolean(PROMO_BULK_PRICING.current[unitPriceCop]);
+      // For now, disable promo product detection to fix calculation issues
+      return false;
+      // if (!categoryId) return false;
+      // const item = cart.find(it => it.category_id === categoryId);
+      // if (!item) return false;
+      // const unitPriceCop = toCOPAmount(Number(item.price) || 0);
+      // return Boolean(PROMO_BULK_PRICING.current[unitPriceCop]);
     },
     [cart]
   );
 
   // Count total quantity of promo-eligible items in the cart
   const getPromosItemsCount = useCallback(() => {
-    return cart.reduce((sum, it) => {
-      const unitPriceCop = toCOPAmount(Number(it.price) || 0);
-      return (
-        sum +
-        (PROMO_BULK_PRICING.current[unitPriceCop]
-          ? Number(it.quantity) || 0
-          : 0)
-      );
-    }, 0);
+    // For now, return 0 to fix calculation issues
+    return 0;
+    // return cart.reduce((sum, it) => {
+    //   const unitPriceCop = toCOPAmount(Number(it.price) || 0);
+    //   return (
+    //     sum +
+    //     (PROMO_BULK_PRICING.current[unitPriceCop]
+    //       ? Number(it.quantity) || 0
+    //       : 0)
+    //   );
+    // }, 0);
   }, [cart]);
 
   // Calculate total savings from promo bundles across the cart
   const getPromosSavings = useCallback(() => {
-    return cart.reduce((savings, it) => {
-      const unitPriceCop = toCOPAmount(Number(it.price) || 0);
-      const bulk = PROMO_BULK_PRICING.current[unitPriceCop];
-      if (!bulk) return savings;
-      const quantity = Math.max(0, Number(it.quantity) || 0);
-      const bundleCount = Math.floor(quantity / 10);
-      const regularForBundles = unitPriceCop * 10 * bundleCount;
-      const promoForBundles = bulk * bundleCount;
-      return savings + Math.max(0, regularForBundles - promoForBundles);
-    }, 0);
+    // For now, return 0 to fix calculation issues
+    return 0;
+    // return cart.reduce((savings, it) => {
+    //   const unitPriceCop = toCOPAmount(Number(it.price) || 0);
+    //   const bulk = PROMO_BULK_PRICING.current[unitPriceCop];
+    //   if (!bulk) return savings;
+    //   const quantity = Math.max(0, Number(it.quantity) || 0);
+    //   const bundleCount = Math.floor(quantity / 10);
+    //   const regularForBundles = unitPriceCop * 10 * bundleCount;
+    //   const promoForBundles = bulk * bundleCount;
+    //   return savings + Math.max(0, regularForBundles - promoForBundles);
+    // }, 0);
   }, [cart]);
 
   // Toggle cart open/close

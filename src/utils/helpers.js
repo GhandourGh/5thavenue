@@ -1,32 +1,28 @@
 // Format Colombian Peso
 export const formatCOP = amount => {
   // Colombian Peso format: $ 500.000 (with space after $, dots for thousands, no decimals)
-  console.log('formatCOP called with:', amount, 'type:', typeof amount);
-
   if (!amount || isNaN(amount)) {
-    console.log('formatCOP returning $ 0 for invalid amount');
     return '$ 0';
   }
 
   const num = parseFloat(amount);
-  console.log('formatCOP parsed number:', num);
-
-  // Convert to full Colombian Peso amount (multiply by 1000 if less than 1000)
-  const fullAmount = num < 1000 ? num * 1000 : num;
-  console.log('formatCOP full amount:', fullAmount);
-
+  
+  // Ensure we're working with the full amount (no multiplication needed)
+  const fullAmount = Math.round(num);
+  
   // Manual formatting to ensure Colombian Peso format with dots for thousands
   const formatted = fullAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-  console.log('formatCOP formatted result:', formatted);
-
-  const result = `$ ${formatted}`;
-  console.log('formatCOP final result:', result);
-  return result;
+  
+  return `$ ${formatted}`;
 };
 
-// Convert to COP amount (remove currency symbol)
+// Convert to COP amount (remove currency symbol and dots, return as number)
 export const toCOPAmount = amount => {
-  return parseInt(amount.toString().replace(/[^\d]/g, ''));
+  if (!amount) return 0;
+  
+  // Remove all non-digit characters and convert to number
+  const cleanAmount = amount.toString().replace(/[^\d]/g, '');
+  return parseInt(cleanAmount) || 0;
 };
 
 // Calculate discount percentage
