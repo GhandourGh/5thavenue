@@ -11,8 +11,12 @@ export const formatCOP = amount => {
   const num = parseFloat(amount);
   console.log('formatCOP parsed number:', num);
 
+  // Convert to full Colombian Peso amount (multiply by 1000 if less than 1000)
+  const fullAmount = num < 1000 ? num * 1000 : num;
+  console.log('formatCOP full amount:', fullAmount);
+
   // Manual formatting to ensure Colombian Peso format with dots for thousands
-  const formatted = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  const formatted = fullAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   console.log('formatCOP formatted result:', formatted);
 
   const result = `$ ${formatted}`;
