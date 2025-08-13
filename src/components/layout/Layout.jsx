@@ -2,10 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
 import { ShoppingBag, User, Search, X, TrendingUp, Menu } from 'lucide-react';
-import logo from '../../assets/icons/logo5th.svg';
-import eyeIcon from '../../assets/icons/eye.svg';
-import seyeIcon from '../../assets/icons/seye.svg';
-import whatsappIcon from '../../assets/icons/whatsapp.svg';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import Cart from '../ui/Cart';
@@ -14,6 +10,12 @@ import EmailConfirmationMessage from '../ui/EmailConfirmationMessage';
 import Toast from '../ui/Toast';
 import { supabase } from '../../services/supabase';
 import { formatCOP } from '../../utils/helpers';
+
+// Icon paths
+const logo = '/logo5th.svg?v=2';
+const eyeIcon = '/eye.svg';
+const seyeIcon = '/seye.svg';
+const whatsappIcon = '/whatsapp.svg';
 
 const Layout = ({ children }) => {
   const location = useLocation();

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { CheckCircle, Mail, AlertCircle } from 'lucide-react';
 import { supabase } from '../services/supabase';
-import logo from '../assets/icons/logo5th.svg';
+
+// Icon paths
+const logo = '/logo5th.svg?v=2';
 
 const EmailConfirmation = () => {
   const navigate = useNavigate();

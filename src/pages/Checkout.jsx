@@ -18,13 +18,11 @@ import { supabase } from '../services/supabase';
 import { setPageSEO } from '../utils/seo';
 import { useAuth } from '../context/AuthContext';
 import { isCodAllowedLocation, COD_DISABLED_MESSAGE } from '../utils/config';
-
-// Import payment method icons
-import codIcon from '../assets/icons/cod.svg';
-import cardIcon from '../assets/icons/card.svg';
-
-// Import banner
 import banner1 from '../assets/images/banner1.webp';
+
+// Icon paths
+const codIcon = '/cod.svg';
+const cardIcon = '/card.svg';
 
 // Country calling codes and Colombian locations will be fetched from public APIs with local cache fallbacks.
 

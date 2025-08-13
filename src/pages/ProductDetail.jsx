@@ -3,11 +3,12 @@ import { setPageSEO, setJsonLd } from '../utils/seo';
 import { useParams, Link } from 'react-router-dom';
 import { Star, Minus, Plus, ChevronLeft } from 'lucide-react';
 import { supabase } from '../services/supabase';
-
 import PriceWithDiscount from '../components/ui/PriceWithDiscount';
-import whiteCartIcon from '../assets/icons/white_cart.svg';
 import { useCart } from '../context/CartContext';
 import ProductNavigation from '../components/ui/ProductNavigation';
+
+// Icon paths
+const whiteCartIcon = '/white_cart.svg';
 
 const ProductDetail = () => {
   const { id } = useParams();

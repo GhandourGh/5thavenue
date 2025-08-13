@@ -20,14 +20,10 @@ import { useCart } from '../context/CartContext';
 import { formatCOP } from '../utils/helpers';
 import { calculatePaymentTotal, WOMPI_CONFIG } from '../utils/paymentUtils';
 
-// Import payment network icons
-import visaIcon from '../assets/icons/visa.svg';
-import amexIcon from '../assets/icons/amex.svg';
-import discoverIcon from '../assets/icons/discover.svg';
-import creditIcon from '../assets/icons/credit.svg';
-import pseIcon from '../assets/icons/pse.svg';
-import nequiIcon from '../assets/icons/nequi.svg';
-import cardIcon from '../assets/icons/card.svg';
+// Icon paths
+const creditIcon = '/credit.svg';
+const nequiIcon = '/nequi.svg';
+const cardIcon = '/card.svg';
 
 const Payment = () => {
   const navigate = useNavigate();
@@ -692,63 +688,12 @@ const Payment = () => {
                     </div>
                   </div>
 
-                  {/* Scrolling Payment Network Icons */}
+                  {/* Payment Network Icons */}
                   <div className="relative overflow-hidden w-48">
-                    <div className="flex items-center space-x-3 animate-scroll">
-                      <img
-                        src={visaIcon}
-                        alt="Visa"
-                        className="w-6 h-6 object-contain"
-                      />
-                      <img
-                        src={amexIcon}
-                        alt="American Express"
-                        className="w-6 h-6 object-contain"
-                      />
-                      <img
-                        src={discoverIcon}
-                        alt="Discover"
-                        className="w-6 h-6 object-contain"
-                      />
+                    <div className="flex items-center space-x-3">
                       <img
                         src={creditIcon}
                         alt="Credit Card"
-                        className="w-6 h-6 object-contain"
-                      />
-                      <img
-                        src={pseIcon}
-                        alt="PSE"
-                        className="w-6 h-6 object-contain"
-                      />
-                      <img
-                        src={nequiIcon}
-                        alt="Nequi"
-                        className="w-6 h-6 object-contain"
-                      />
-                      {/* Duplicate icons for seamless loop */}
-                      <img
-                        src={visaIcon}
-                        alt="Visa"
-                        className="w-6 h-6 object-contain"
-                      />
-                      <img
-                        src={amexIcon}
-                        alt="American Express"
-                        className="w-6 h-6 object-contain"
-                      />
-                      <img
-                        src={discoverIcon}
-                        alt="Discover"
-                        className="w-6 h-6 object-contain"
-                      />
-                      <img
-                        src={creditIcon}
-                        alt="Credit Card"
-                        className="w-6 h-6 object-contain"
-                      />
-                      <img
-                        src={pseIcon}
-                        alt="PSE"
                         className="w-6 h-6 object-contain"
                       />
                       <img
@@ -757,33 +702,8 @@ const Payment = () => {
                         className="w-6 h-6 object-contain"
                       />
                       <img
-                        src={visaIcon}
-                        alt="Visa"
-                        className="w-6 h-6 object-contain"
-                      />
-                      <img
-                        src={amexIcon}
-                        alt="American Express"
-                        className="w-6 h-6 object-contain"
-                      />
-                      <img
-                        src={discoverIcon}
-                        alt="Discover"
-                        className="w-6 h-6 object-contain"
-                      />
-                      <img
-                        src={creditIcon}
-                        alt="Credit Card"
-                        className="w-6 h-6 object-contain"
-                      />
-                      <img
-                        src={pseIcon}
-                        alt="PSE"
-                        className="w-6 h-6 object-contain"
-                      />
-                      <img
-                        src={nequiIcon}
-                        alt="Nequi"
+                        src={cardIcon}
+                        alt="Card"
                         className="w-6 h-6 object-contain"
                       />
                     </div>
