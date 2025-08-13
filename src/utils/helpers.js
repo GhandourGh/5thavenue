@@ -1,20 +1,22 @@
 // Format Colombian Peso
 export const formatCOP = amount => {
-  // Colombian Peso format: $ 500.000 (with space after $, dots for thousands, no decimals)
+  // Colombian Peso format: $200.000 (no space after $, dots for thousands, no decimals)
   if (!amount || isNaN(amount)) {
-    return '$ 0';
+    return '$0';
   }
 
   const num = parseFloat(amount);
   
-  // If the number is less than 1000, it's likely stored in thousands (e.g., 200 = 200,000 COP)
-  // If the number is 1000 or greater, it's already in the correct format
-  const fullAmount = num < 1000 ? num * 1000 : num;
+  // Use the amount exactly as stored - no multiplication or scaling
+  const fullAmount = Math.round(num);
   
-  // Manual formatting to ensure Colombian Peso format with dots for thousands
-  const formatted = fullAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  // Use Colombian locale formatting for proper thousand separators
+  const formatted = new Intl.NumberFormat('es-CO', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(fullAmount);
   
-  return `$ ${formatted}`;
+  return `$${formatted}`;
 };
 
 // Convert to COP amount (remove currency symbol and dots, return as number)
