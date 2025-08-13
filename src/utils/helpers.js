@@ -7,8 +7,9 @@ export const formatCOP = amount => {
 
   const num = parseFloat(amount);
   
-  // Ensure we're working with the full amount (no multiplication needed)
-  const fullAmount = Math.round(num);
+  // If the number is less than 1000, it's likely stored in thousands (e.g., 200 = 200,000 COP)
+  // If the number is 1000 or greater, it's already in the correct format
+  const fullAmount = num < 1000 ? num * 1000 : num;
   
   // Manual formatting to ensure Colombian Peso format with dots for thousands
   const formatted = fullAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
